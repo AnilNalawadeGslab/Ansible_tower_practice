@@ -1,5 +1,5 @@
 ---
-- hosts: localhost
+- hosts: test
   become: true
   tasks:
     - name: Print hellow world 
