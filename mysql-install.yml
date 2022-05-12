@@ -1,0 +1,41 @@
+---
+- name: Install MySQL
+  hosts: test
+  become: true
+  gather_facts: true
+  #  vars_files:
+  #  - vars/main.yml
+                 
+  roles:
+    - { role: geerlingguy.mysql }
+
+
+          #    - name: "UnInstalling MySQL"
+          #        yum:
+          #          name: mysql
+          #          state: absent
+
+#    - name: Install MySQL 5.7 repo
+#      yum: name=http://dev.mysql.com/get/mysql57-community-release-el7-8.noarch.rpm state=present
+#
+#    - name: Install MySQL 5.7
+#      yum: pkg={{ item }}
+#      with_items:
+#        - mysql-community-server
+#        - MySQL-python
+#
+#    - name: Start the MySQL service
+#      service: name=mysqld state=started enabled=true
+                                      
+
+#    - name: Start the MySQL service
+#      service: 
+#        name: mysql
+#        state: started
+#        enabled: true
+#                                                                                                 
+#    - name: Find MySQL root password
+#      shell: "echo `grep 'temporary.*root@localhost' /var/log/mysqld.log | sed 's/.*root@localhost: //'`"
+#      register: mysql_root_pass
+#   
+#    - debug: var=mysql_root_pass.stdout
