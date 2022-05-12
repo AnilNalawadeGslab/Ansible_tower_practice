@@ -14,5 +14,6 @@
        when: repolist_output.stdout == "repolist not present"    
 
      - name: update yum packages to apply patch
-       shell: yum update -y 
+       yum: name=* state=latest update_cache=yes
+       #Using shell module >>  shell: yum update -y 
        when: repolist_output.stdout == "repolist present"
