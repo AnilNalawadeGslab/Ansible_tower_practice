@@ -1,5 +1,6 @@
 --- 
 - hosts: test
+  ansible_user: ansiadmin
   become: true
   vars:
     change_port: 90
