@@ -1,0 +1,18 @@
+---
+- name: patch the server
+  hosts: test
+  become: true
+  tasks:
+     - name: Check yum repolist
+       shell: 
+          cmd: yum repolist > /dev/null 2>&1; if [ $? -eq 0 ]; then echo "repolist present"; else echo "repolist not present"; fi
+       register: repolist_output
+
+     - name: Fail if repository not present
+       fail:
+         msg: "repository not found on {{ ansible_hostname }}"
+       when: repolist_output.stdout == "repolist not present"    
+
+     - name: update yum packages to apply patch
+       shell: yum update -y 
+       when: repolist_output.stdout == "repolist present"
