@@ -1,0 +1,45 @@
+--- 
+- hosts: test
+  become: true
+  vars:
+    change_port: 90
+
+  tasks:
+#    - name: Uninstall apache server 
+#      yum:
+#        name: httpd
+#        state: absent
+
+     - name: Install apache server 
+       yum:
+         name: httpd
+         state: present
+
+     - name: Ensure httpd is running
+       service:
+         name: httpd
+         state: started
+
+     - name: Change in httpd configuration file to change port
+       lineinfile: 
+          path: /etc/httpd/conf/httpd.conf
+          regexp: '^\s*Listen 80.*$'
+          line: 'Listen {{ change_port }}'
+
+     - name: Install policycoreutils
+       yum:
+         name: policycoreutils
+         state: present
+
+         #     - name: SELinux port confiure 1
+         #       shell: semanage port -a -t http_port_t -p tcp {{ change_port }}
+
+     - name: SELinux port confiure 2
+       shell: semanage port -m -t http_port_t -p tcp {{ change_port }}
+       notify: restart httpd
+
+  handlers:
+       - name: restart httpd
+         service: 
+            name: httpd 
+            state: restarted
